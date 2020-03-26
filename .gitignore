@@ -1,0 +1,60 @@
+.idea
+
+# Log file
+*.log
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+*.iml
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+estate-admin/target/classes/
+estate-admin/target/generated-sources/
+estate-admin/target/generated-test-sources/
+estate-admin/target/maven-archiver/
+estate-admin/target/maven-status/
+estate-admin/target/estate-admin.jar.original
+estate-admin/target/test-classes/
+estate-api/target/classes/
+estate-api/target/generated-sources/
+estate-api/target/generated-test-sources/
+estate-api/target/maven-archiver/
+estate-api/target/maven-status/
+estate-api/target/estate-api.jar.original
+estate-api/target/test-classes/
+estate-biz/target/classes/
+estate-biz/target/generated-sources/
+estate-biz/target/maven-archiver/
+estate-biz/target/maven-status/
+estate-common/target/classes/
+estate-common/target/generated-sources/
+estate-common/target/maven-archiver/
+estate-common/target/maven-status/
+estate-admin/src/main/java/com/ztuo/modules/util/
+estate-admin/target/classes/
+estate-admin/target/generated-sources/
+estate-admin/target/generated-test-sources/
+estate-admin/target/maven-archiver/
+estate-admin/target/maven-status/
+estate-admin/target/estate-admin.jar.original
+estate-admin/target/test-classes/
+estate-biz/target/classes/
+estate-biz/target/generated-sources/
+estate-biz/target/maven-archiver/
+estate-biz/target/maven-status/
+estate-common/target/classes/
+estate-common/target/generated-sources/
+estate-common/target/maven-archiver/
+estate-common/target/maven-status/

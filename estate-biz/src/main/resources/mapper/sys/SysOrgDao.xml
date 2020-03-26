@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ztuo.modules.sys.dao.SysOrgDao">
+
+    <select id="queryMaxIdByParentNo" resultType="string">
+		SELECT MAX(ORG_NO) FROM SYS_ORG WHERE PARENT_NO = #{parentNo}
+	</select>
+
+	<sql id="selectSql">
+		SELECT O.ORG_NO,
+		O.ORG_NAME,
+		O.PARENT_NO,
+		O.ORG_TYPE,
+		O.STATUS,
+		O.SORT,
+		O.CREATE_TIME,
+		O.CREATE_USER_ID,
+		SO.ORG_NAME PARENT_NAME
+		FROM SYS_ORG O
+		LEFT JOIN SYS_ORG SO ON O.PARENT_NO = SO.ORG_NO
+		WHERE 1=1
+		<if test="orgName != null and orgName.trim() != ''">
+			AND O.ORG_NAME LIKE '%${orgName}%'
+		</if>
+		<if test="orgType != null">
+			AND O.ORG_TYPE = #{orgType}
+		</if>
+		<if test="parentName != null and parentName.trim() != ''">
+			AND SO.ORG_NAME LIKE '%${parentName}%'
+		</if>
+	</sql>
+
+	<select id="queryAll" resultType="com.ztuo.modules.sys.entity.SysOrgEntity">
+		<include refid="selectSql"/>
+	</select>
+
+	<select id="selectChildrensByOrgNo" resultType="com.ztuo.modules.sys.entity.SysOrgEntity">
+		SELECT
+		ORG_NAME
+		FROM SYS_ORG WHERE PARENT_NO = #{orgNo}
+	</select>
+
+	<resultMap id="BaseResultMap" type="com.ztuo.modules.sys.entity.SysOrgVO" >
+		<result column="ORG_NO" property="orgNo" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<resultMap id="BaseResultMapWy" type="com.ztuo.modules.sys.entity.SysOrgVO" >
+		<result column="ORG_NO" property="orgNo" jdbcType="VARCHAR" />
+		<result column="ORG_NAME_WY" property="orgName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getArea" resultMap="BaseResultMap">
+		select
+		ORG_NO,ORG_NAME
+		from SYS_ORG
+		where
+		PARENT_NO = #{parentNo,jdbcType=VARCHAR} and ORG_TYPE = #{orgType,jdbcType=INTEGER} and STATUS = 1
+		order by SORT
+	</select>
+
+
+	<select id="getAreaWy" resultMap="BaseResultMapWy">
+		select
+		ORG_NO,ORG_NAME_WY
+		from SYS_ORG
+		where
+		PARENT_NO = #{parentNo,jdbcType=VARCHAR} and ORG_TYPE = #{orgType,jdbcType=INTEGER} and STATUS = 1
+		order by SORT
+	</select>
+
+	<sql id="Base_Column_List" >
+		ORG_NO, <!-- 机构编码 -->
+		ORG_NAME, <!-- 机构名称 -->
+		PARENT_NO, <!-- 上级机构ID，一级机构为0 -->
+		ORG_TYPE, <!-- 级别 -->
+		STATUS, <!-- 状态  0：无效   1：有效 -->
+		SORT, <!-- 排序 -->
+		CREATE_USER_ID, <!-- 创建者ID -->
+		CREATE_TIME, <!-- 创建时间 -->
+		ORG_NAME_WY  <!-- 维语名称 -->
+	</sql>
+
+	<resultMap id="ResultMap" type="com.ztuo.modules.sys.entity.SysOrgEntity" >
+		<id column="ORG_NO" property="orgNo" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="PARENT_NO" property="parentNo" jdbcType="VARCHAR" />
+		<result column="ORG_TYPE" property="orgType" jdbcType="INTEGER" />
+		<result column="STATUS" property="status" jdbcType="INTEGER" />
+		<result column="SORT" property="sort" jdbcType="INTEGER" />
+		<result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+		<result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="ORG_NAME_WY" property="orgNameWy" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<select id="getByOrgNo" resultMap="ResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from SYS_ORG
+		where
+		ORG_NO = #{orgNo,jdbcType=VARCHAR} and STATUS = 1
+	</select>
+
+
+	<resultMap id="BaseAllMap" type="com.ztuo.modules.house.dto.SysOrgDTO" >
+		<id column="ORG_NO" property="orgNo" jdbcType="VARCHAR" />
+		<result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+		<result column="ORG_NAME_WY" property="orgNameWy" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="getAreaAll" resultMap="BaseAllMap">
+		SELECT ORG_NO, ORG_NAME, ORG_NAME_WY
+		 FROM SYS_ORG
+		 WHERE
+		PARENT_NO = #{parentNo,jdbcType=VARCHAR} and ORG_TYPE = #{orgType,jdbcType=INTEGER} and STATUS = 1
+		order by SORT
+	</select>
+
+
+
+
+</mapper>
